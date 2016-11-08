@@ -1,25 +1,24 @@
 1. What is queue?
 
-
 A linear structure which follows a particular order in which operations are performed. Order is FIFO (First-In-First-Out). Difference between stack and queue, is the way elements are removed.
 
 
 2. Queue ADT
-
 
 Various operations that can be performed on queue are:
 Enqueue - Add item to the queue
 Dequeue - Remove an item from the queue
 Front - Get front item from queue
 Rear - Get last item from queue
-3. Applications
 
+
+3. Applications
 
 Resource is shared among multiple consumers. Example include CPU Scheduling, Disk Scheduling
 Data is transferred asynchronously between 2 processes. Examples: IO buffers, pipes, file IO
 
-
 4. Array implementation of Queue
+
 For implementing queue, we need to keep track of 2 indices, front and rear. We enqueue an item at the rear and dequeue an item from front. We need to increase front and rear in circular manner.
 
 	struct Queue
@@ -92,8 +91,7 @@ For implementing queue, we need to keep track of 2 indices, front and rear. We e
 
 5. Linked List Implementation
 
-
-	struct QNode
+`	struct QNode
 	{
 	    int key;
 	    struct QNode *next;
