@@ -8,11 +8,23 @@ Examples:
 
 *Input*:
   
-arr[][C] = { {2, 1, 0, 2, 1}  		{{2, 2, 0, 2, 2}
+2 | 1 | 0 | 2 | 1
+1 | 0 | 1 | 2 | 1
+1 | 0 | 0 | 2 | 1
 
-	     {1, 0, 1, 2, 1}    =>      {2, 0, 2, 2, 2}   =>  ….
+After first pass
 
-             {1, 0, 0, 2, 1}};		 {1, 0, 0, 2, 2}}
+
+2 | 2 | 0 | 2 | 2
+2 | 0 | 2 | 2 | 2
+1 | 0 | 0 | 2 | 2
+
+After second pass
+
+
+2 | 2 | 0 | 2 | 2
+2 | 0 | 2 | 2 | 2
+2 | 0 | 0 | 2 | 2
 
 *Output*:
 
@@ -22,11 +34,16 @@ All oranges can become rotten in 2 time frames.
 
 *Input*:
   
-arr[][C] = { {2, 1, 0, 2, 1} 		{{2, 2, 0, 2, 2}
+2 | 1 | 0 | 2 | 1
+0 | 0 | 1 | 2 | 1
+1 | 0 | 0 | 2 | 1
 
-             {0, 0, 1, 2, 1}     =>	{0,  0,  2,  2 , 2}
+After first pass
 
-             {1, 0, 0, 2, 1}};		{1,  0,  0,  2,  2}}
+2 | 2 | 0 | 2 | 2
+0 | 0 | 2 | 2 | 2
+1 | 0 | 0 | 2 | 2
+
 
 *Output*:
 
@@ -37,7 +54,7 @@ All oranges cannot be rotten.
 __*Note*__: Logic should pass all possible testcases
 
 
-**Methods**:
+**Method**:
 - Create empty queue
 - Enqueue all rotten oranges and delimiter to distinguish between time-frame
 - While Q is not empty
