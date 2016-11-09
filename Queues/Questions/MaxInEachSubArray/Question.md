@@ -1,16 +1,23 @@
 Given an array of size n and an integer k, find the maximum for each and every contiguous subarray of size k.
 
-Input: 
+*Input*: 
+
 n k
+
 array elements
 
 9 3
+
 1 2 3 1 4 5 2 3 6
-Output:
+
+
+*Output*:
+
 3 3 4 5 5 5 6
 
 
-*Note*: Logic should pass all possible testcases
+
+__*Note*__: Logic should pass all possible testcases
 
 
 **Methods**:

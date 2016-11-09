@@ -1,12 +1,16 @@
 Given a number n, write a function that generates and prints all binary numbers with decimal values from 1 to n. [Try without converting each decimal number to binary]
 
-Input: 
+*Input*: 
+
 5
-Output: 
+
+*Output*: 
+
 1 10 11 100 101
 
 
-*Note*: Logic should pass all possible testcases
+
+__*Note*__: Logic should pass all possible testcases
 
 
 **Methods**:

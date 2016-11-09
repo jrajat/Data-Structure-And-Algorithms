@@ -1,19 +1,29 @@
 Given an array of non-negative integers. Find the largest multiple of 3 that can be formed from array elements.
 
-Input: 
+*Input*: 
+
 3
+
 8 1 9
-Output: 
+
+*Output*: 
+
 981
 
-Input:
+
+
+*Input*:
+
 5
+
 8 1 7 6 0
-Output:
+
+*Output*:
+
 8760
 
 
-*Note*: Logic should pass all possible testcases
+__*Note*__: Logic should pass all possible testcases
 
 
 **Methods**:
