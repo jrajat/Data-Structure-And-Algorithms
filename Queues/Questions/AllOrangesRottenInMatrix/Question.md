@@ -6,24 +6,25 @@ what is the minimum time required so that all the oranges become rotten. A rotte
 
 Examples:
 
+
 *Input*:
   
---|---|---|---|---
 2 | 1 | 0 | 2 | 1
+--- | --- | --- | --- | ---
 1 | 0 | 1 | 2 | 1
 1 | 0 | 0 | 2 | 1
 
 After first pass
 
---|---|---|---|---
 2 | 2 | 0 | 2 | 2
+--- | --- | --- | --- | ---
 2 | 0 | 2 | 2 | 2
 1 | 0 | 0 | 2 | 2
 
 After second pass
 
---|---|---|---|---
 2 | 2 | 0 | 2 | 2
+--- | --- | --- | --- | ---
 2 | 0 | 2 | 2 | 2
 2 | 0 | 0 | 2 | 2
 
@@ -35,15 +36,15 @@ All oranges can become rotten in 2 time frames.
 
 *Input*:
 
---|---|---|---|---  
 2 | 1 | 0 | 2 | 1
+--- | --- | --- | --- | ---  
 0 | 0 | 1 | 2 | 1
 1 | 0 | 0 | 2 | 1
 
 After first pass
 
---|---|---|---|---
 2 | 2 | 0 | 2 | 2
+--- | --- | --- | --- | ---
 0 | 0 | 2 | 2 | 2
 1 | 0 | 0 | 2 | 2
 
