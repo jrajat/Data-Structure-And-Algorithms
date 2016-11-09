@@ -8,9 +8,9 @@ Examples:
 
 *Input*:
   
-arr[][C] = { {2, 1, 0, 2, 1},  		{{2, 2, 0, 2, 2},
+arr[][C] = { {2, 1, 0, 2, 1}  		{{2, 2, 0, 2, 2}
 
-	     {1, 0, 1, 2, 1},    =>      {2, 0, 2, 2, 2},   =>  ….
+	     {1, 0, 1, 2, 1}    =>      {2, 0, 2, 2, 2}   =>  ….
 
              {1, 0, 0, 2, 1}};		 {1, 0, 0, 2, 2}}
 
@@ -22,9 +22,9 @@ All oranges can become rotten in 2 time frames.
 
 *Input*:
   
-arr[][C] = { {2, 1, 0, 2, 1}, 		{{2, 2, 0, 2, 2},
+arr[][C] = { {2, 1, 0, 2, 1} 		{{2, 2, 0, 2, 2}
 
-             {0, 0, 1, 2, 1},     =>	{0,  0,  2,  2 , 2},
+             {0, 0, 1, 2, 1}     =>	{0,  0,  2,  2 , 2}
 
              {1, 0, 0, 2, 1}};		{1,  0,  0,  2,  2}}
 
@@ -39,9 +39,9 @@ __*Note*__: Logic should pass all possible testcases
 
 **Methods**:
 - Create empty queue
-  Enqueue all rotten oranges and delimiter to distinguish between time-frame
-  While Q is not empty
-	  * If Q->front is not delimiter
-	  * Rotten all adjacent oranges and push them to Q, also increment time frame only once
-  POP delimiter and push another delimiter, all oranges in between are rotten in first time frame
+- Enqueue all rotten oranges and delimiter to distinguish between time-frame
+- While Q is not empty
+  * If Q->front is not delimiter
+  * Rotten all adjacent oranges and push them to Q, also increment time frame only once
+- POP delimiter and push another delimiter, all oranges in between are rotten in first time frame
 

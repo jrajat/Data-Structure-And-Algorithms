@@ -32,7 +32,9 @@ __*Note*__: Logic should pass all possible testcases
   * No. is multiple of 3 iff sum of its digits is multiple of 3
   * If no is multiple of 3, then all its combinations are also multiple of 3
   * We get same remainder when we divide number by 3 and sum of its digits by 3
+
   Logic?
+
 	* Sort in increasing order
 	* 3 queues, 1 store elements with remainder 0, 2 elements with remainder  1 and elements with remainder 2
 	* Find sum of all digits
