@@ -1,0 +1,175 @@
+1. What is queue?
+
+A linear structure which follows a particular order in which operations are performed. Order is FIFO (First-In-First-Out). Difference between stack and queue, is the way elements are removed.
+
+
+2. Queue ADT
+
+Various operations that can be performed on queue are:
+Enqueue - Add item to the queue
+Dequeue - Remove an item from the queue
+Front - Get front item from queue
+Rear - Get last item from queue
+
+
+3. Applications
+
+Resource is shared among multiple consumers. Example include CPU Scheduling, Disk Scheduling
+Data is transferred asynchronously between 2 processes. Examples: IO buffers, pipes, file IO
+
+4. Array implementation of Queue
+
+For implementing queue, we need to keep track of 2 indices, front and rear. We enqueue an item at the rear and dequeue an item from front. We need to increase front and rear in circular manner.
+
+	struct Queue
+	{
+	    int front, rear, size;
+	    unsigned capacity;
+	    int* array;
+	};
+	struct Queue* createQueue(unsigned capacity)
+	{
+	    struct Queue* queue = (struct Queue*) malloc(sizeof(struct Queue));
+	    queue->capacity = capacity;
+	    queue->front = queue->size = 0;
+	    queue->rear = capacity - 1;  // This is important, see the enqueue
+	    queue->array = (int*) malloc(queue->capacity * sizeof(int));
+	    return queue;
+	}
+	int isFull(struct Queue* queue)
+	{  return (queue->size == queue->capacity);  }
+	int isEmpty(struct Queue* queue)
+	{  return (queue->size == 0); }
+	void enqueue(struct Queue* queue, int item)
+	{
+	    if (isFull(queue))
+		return;
+	    //to make it cyclic
+	    queue->rear = (queue->rear + 1)%queue->capacity;
+	    //queue->rear=0
+	    queue->array[queue->rear] = item;
+	    queue->size = queue->size + 1;
+	    printf("%d enqueued to queue\n", item);
+	}
+	int dequeue(struct Queue* queue)
+	{
+	    if (isEmpty(queue))
+		return INT_MIN;
+	    int item = queue->array[queue->front];
+	    queue->front = (queue->front + 1)%queue->capacity;
+	    queue->size = queue->size - 1;
+	    return item;
+	}
+	int front(struct Queue* queue)
+	{
+	    if (isEmpty(queue))
+		return INT_MIN;
+	    return queue->array[queue->front];
+	}
+	int rear(struct Queue* queue)
+	{
+	    if (isEmpty(queue))
+		return INT_MIN;
+	    return queue->array[queue->rear];
+	}
+	int main()
+	{
+	    struct Queue* queue = createQueue(1000);
+	 
+	    enqueue(queue, 10);
+	    enqueue(queue, 20);
+	    enqueue(queue, 30);
+	    enqueue(queue, 40);
+	 
+	    printf("%d dequeued from queue\n", dequeue(queue));
+	 
+	    printf("Front item is %d\n", front(queue));
+	    printf("Rear item is %d\n", rear(queue));
+	 
+	    return 0;
+	}
+
+5. Linked List Implementation
+
+`	struct QNode
+	{
+	    int key;
+	    struct QNode *next;
+	};
+	 
+	struct Queue
+	{
+	    struct QNode *front, *rear;
+	};
+ 
+	struct QNode* newNode(int k)
+	{
+	    struct QNode *temp = (struct QNode*)malloc(sizeof(struct QNode));
+	    temp->key = k;
+	    temp->next = NULL;
+	    return temp;
+	}
+	struct Queue *createQueue()
+	{
+	    struct Queue *q = (struct Queue*)malloc(sizeof(struct Queue));
+	    q->front = q->rear = NULL;
+	    return q;
+	}
+	void enQueue(struct Queue *q, int k)
+	{
+	    struct QNode *temp = newNode(k);
+	    if (q->rear == NULL)
+	    {
+	       q->front = q->rear = temp;
+	       return;
+	    }
+	    q->rear->next = temp;
+	    q->rear = temp;
+	}
+ 
+	struct QNode *deQueue(struct Queue *q)
+	{
+	    if (q->front == NULL)
+	       return NULL;
+	 
+	    struct QNode *temp = q->front;
+	    q->front = q->front->next;
+	 
+	    if (q->front == NULL)
+	       q->rear = NULL;
+	    free(temp);	
+	    return temp;
+	}
+	int main()
+	{
+	    struct Queue *q = createQueue();
+	    enQueue(q, 10);
+	    enQueue(q, 20);
+	    deQueue(q);
+	    deQueue(q);
+	    enQueue(q, 30);
+	    enQueue(q, 40);
+	    enQueue(q, 50);
+	    struct QNode *n = deQueue(q);
+	    if (n != NULL)
+	      printf("Dequeued item is %d", n->key);
+	    return 0;
+	}
+
+
+6. Priority Queue
+
+Its an extension of queue with following properties:
+a) Every element has priority associated with it
+b) Element with high priority is dequeued before an element with low priority
+c) 2 elements with same priority, they are served according to their order in queue
+
+
+A typical priority queue supports following operations.
+insert(item, priority): Inserts an item with given priority.  => O(n)
+getHighestPriority(): Returns the highest priority item.    =>  O(1)
+deleteHighestPriority(): Removes the highest priority item.  => O(1)
+
+
+Graph algorithms: Dijkstra’s Algo, Prim’s Algo
+
