@@ -2,7 +2,6 @@ package com.class4.queue;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Scanner;
 
 public class QToStack {
 
