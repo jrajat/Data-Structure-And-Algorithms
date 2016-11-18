@@ -30,5 +30,5 @@ __*Note*__: Logic should pass all possible testcases
 **Methods**:
 - Nested loop, for each element check all other elements if sum=k 
 - Sort array and then by keeping 2 pointers at two extremes check if sum=k
-- Sort array and then applying binary search check for each element another elements exists in array such taht their sum=k
-- Apply hashing, for each element find it other element is present in array such that their sum=k in O(1)
+- Sort array and then applying binary search check for each element another elements exists in array such that their sum=k
+- Apply hashing, for each element find if other element is present in array such that their sum=k in O(1)
