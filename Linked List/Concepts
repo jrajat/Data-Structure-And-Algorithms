@@ -1,0 +1,292 @@
+Linked List Basic Concepts
+
+
+1. What is linked list?
+Like arrays, Linked List is a linear data structure. Unlike arrays, linked list elements are not stored at contiguous location; the elements are linked using pointers.
+	
+Arrays can be used to store linear data of similar types, but arrays have following limitations.
+- The size of the arrays is fixed: So we must know the upper limit on the number of elements in advance. Also, generally, the allocated memory is equal to the upper limit irrespective of the usage.
+- Inserting a new element in an array of elements is expensive, because room has to be created for the new elements and to create room existing elements have to shifted.
+
+
+2. Linked List ADT
+Following basic operations can be made
+- Insert an element into list
+- Delete an element from list
+
+
+3. Arrays Overview
+One memory block is allocated for the entire array to hold elements. Array elements can be accessed in constant time by using index of particular element.
+Constant Time:- Base address + some constant number to reach to an element
+Adv:- Simple and easy to use, faster access to element [ constant acces]
+Disadv:- Fixed size, One block allocation
+ 
+
+Dynamic Array
+Random access, variable-size list data structure that allows element to be added/removed. Initialize an array with default size, if it becomes full create new array with double size and vice-versa [reduce to half if no. of elements < half ]
+
+
+4. Why Linked List?
+Adv:- Dynamic size, Ease of insert/delete
+Disadv:- Random access not allowed [No binary search], extra memory space for pointer
+
+
+5. Linked List Node in C
+	// A linked list node
+	struct node
+	{
+	  int data;
+	  struct node next;  //size of pointer is alway 4bytes 
+	};
+
+6. Creating a Linked List
+
+	struct node* head = NULL;
+	struct node* second = NULL;
+	struct node* third = NULL;
+
+	// allocate 3 nodes in the heap 
+	head = (struct node*)malloc(sizeof(struct node));
+	second = (struct node*)malloc(sizeof(struct node));
+	third = (struct node*)malloc(sizeof(struct node));
+
+	head->data = 1; //assign data in first node
+	head->next = second; // Link first node with the second node
+
+	second->data = 2; //assign data to second node
+	second->next = third; // Link second node with the third node
+
+	third->data = 3; //assign data to third node
+	third->next = NULL;
+
+	return 0;
+
+    
+
+
+Single Linked List
+
+1. Traversing the linked list
+
+	void printList(struct node *n)
+	{
+	  while (n != NULL)
+	  {
+	     printf(" %d ", n->data);
+	     n = n->next;
+	  }
+	}
+
+
+2. Inserting an item into list 
+	a. Beginning of list
+	
+		void push(struct node** head_ref, int new_data)
+		{
+		    struct node* new_node = (struct node*) malloc(sizeof(struct node));
+		    new_node->data  = new_data;
+		    new_node->next = (*head_ref);
+		    (*head_ref)	= new_node;
+		}
+
+
+	b. End of list
+		void append(struct node** head_ref, int new_data)
+		{
+		    struct node* new_node = (struct node*) malloc(sizeof(struct node));
+		    struct node *last = *head_ref;
+		    new_node->data  = new_data;
+		    new_node->next = NULL;
+		    if (*head_ref == NULL)
+		    {
+		       *head_ref = new_node;
+		       return;
+		    } 
+		    while (last->next != NULL)
+			last = last->next;
+		    last->next = new_node;
+		    return;	
+		}
+
+	c. Middle (Random location) of list
+		void insertAfter(struct node* prev_node, int new_data)
+		{
+			if (prev_node == NULL)
+			{  printf("the given previous node cannot be NULL");   	
+			return; 
+			} 
+			struct node* new_node =(struct node*) malloc(sizeof(struct node));
+			new_node->data  = new_data;
+			new_node->next = prev_node->next;
+			prev_node->next = new_node;
+		}
+
+
+3. Deleting an item from the list
+	Beginning/middle/end of list
+		void deleteNode(struct node **head_ref, int position)i
+		{
+		   if (*head_ref == NULL)
+		      return;
+		 
+		   struct node* temp = *head_ref;
+		   if (position == 0)
+		   {
+			*head_ref = temp->next;   
+		         free(temp);           	
+		         return;
+		    }
+		    for (int i=0; temp!=NULL && i<position-1; i++)
+		    temp = temp->next;
+
+		    if (temp == NULL || temp->next == NULL)
+		          return;
+
+		    struct node *next = temp->next->next;
+		    free(temp->next);
+	     	    temp->next = next;
+		}
+
+
+4. Deleting a list
+	void deleteList(struct node **head_ref)
+	{
+		if (*head_ref == NULL)
+			return;
+		struct node *temp, *ref;
+		temp = *head_ref;
+		while (temp)
+		{
+			ref = temp->next;   
+			free(temp);           	
+			temp=ref;
+		}
+		*head_ref = NULL;
+	}
+
+
+Doubly Linked List
+
+A Doubly Linked List (DLL) contains an extra pointer, typically called previous pointer, together with next pointer and data which are there in singly linked list.
+	struct node
+	{
+		int data;
+		struct node *next; 
+		struct node *prev; 
+	};
+
+
+Advantage: Traversed forward and backward, delete operation is easier
+Disadvantage: Extra memory, all operations require extra pointer to be maintained
+
+1. Inserting an item into list 
+	a. Beginning of list
+		void push(struct node** head_ref, int new_data)
+		{
+			struct node* new_node = (struct node*) malloc(sizeof(struct node));
+			new_node->data  = new_data;
+			new_node->next = (*head_ref);
+			new_node->prev = NULL;
+			if((*head_ref) !=  NULL)
+			(*head_ref)->prev = new_node ;
+			(*head_ref)	= new_node;
+		}
+
+
+	b.End of list
+		void append(struct node** head_ref, int new_data)
+		{
+		    struct node* new_node = (struct node*) malloc(sizeof(struct node));
+		    struct node *last = *head_ref; 
+		    new_node->data  = new_data;
+		    new_node->next = NULL;
+		    if (*head_ref == NULL)
+		    {
+			new_node->prev = NULL;
+			*head_ref = new_node;
+			return;
+		    }
+		    while (last->next != NULL)
+			last = last->next;
+		    last->next = new_node;
+		    new_node->prev = last;
+		    return;
+		}
+
+
+	c. Middle (Random location before/after) of list
+		void insertAfter(struct node* prev_node, int new_data)
+		{
+		    if (prev_node == NULL)
+		    {
+			printf("the given previous node cannot be NULL");
+			return;
+		    }
+		    struct node* new_node =(struct node*) malloc(sizeof(struct node));
+		    new_node->data  = new_data;
+		    new_node->next = prev_node->next;
+		    prev_node->next = new_node;
+		    new_node->prev = prev_node;
+		    if (new_node->next != NULL)
+		      new_node->next->prev = new_node;
+		}
+
+
+2. Deleting an item from the list
+	Beginning/MIddle.End of list
+		void deleteNode(struct node **head_ref, struct node *del)
+		{
+		  if(*head_ref == NULL || del == NULL)
+		    return;
+		  if(*head_ref == del)
+		    *head_ref = del->next;
+		  if(del->next != NULL)
+		    del->next->prev = del->prev;
+		  if(del->prev != NULL)
+		    del->prev->next = del->next; 	
+		  free(del);
+		  return;
+		}  
+			  
+Circular Linked List
+Circular linked list is a linked list where all nodes are connected to form a circle. There is no NULL at the end. A circular linked list can be a singly circular linked list or doubly circular linked list.
+Advantages: Any node can be starting point and we can traverse entire list, Useful for implementation of queue (point to rear and next of rear will be front), 
+
+void push(struct node **head_ref, int data)
+{
+    struct node *ptr1 = (struct node *)malloc(sizeof(struct node));
+    struct node *temp = *head_ref;
+    ptr1->data = data;
+    ptr1->next = *head_ref;
+ 
+    if (*head_ref != NULL)
+    {
+        while (temp->next != *head_ref)
+            temp = temp->next;
+        temp->next = ptr1;
+    }
+    else
+        ptr1->next = ptr1; 
+    *head_ref = ptr1;
+}
+ 
+void printList(struct node *head)
+{
+    struct node *temp = head;
+    if (head != NULL)
+    {
+        do
+        {
+            printf("%d ", temp->data);
+            temp = temp->next;
+        }
+        while (temp != head);
+    }
+}
+
+
+Memory-Efficient Doubly Linked List
+Instead of keeping two pointers :- one to previous node and one to next node, can we manage with single pointer?
+Yes, by having that single address pointing to XOR of previous and next node
+Benefit: When u traverser either you’ll have prev/next node and then by xoring with the address we you can get corresponding other next/prev node
+
