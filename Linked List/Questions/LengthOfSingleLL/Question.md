@@ -8,5 +8,6 @@ int length(struct node* head)
 ```
 
 
-**Method**:
+**Methods**:
+- Loop through the list till NULL
 - Recursive method to find length of linked list

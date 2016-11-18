@@ -9,4 +9,4 @@ struct node* reverse(struct node* head)
 
 
 **Method**:
-- Keep 2 pointers at 2 extremes, keep swappping the node..be careful while playing with pointers.
+- Consider first 2 nodes swap it, then consider next node swap that with already swapped 2 nodes, repeat this till end of list

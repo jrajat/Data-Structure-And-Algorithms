@@ -9,4 +9,4 @@ struct node* swapNodes(struct node* head, struct node* node1, struct node* node2
 
 
 **Method**:
-- Ply with pointers
+- Play with pointers
