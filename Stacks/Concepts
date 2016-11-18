@@ -1,0 +1,161 @@
+Stacks Basic Concepts
+
+1. What is stack?
+
+Stack is an ordered list in which insertion and deletion are done at one end, called top.Last element inserted is the first one to be deleted. Hence it’s called LIFO or FILO.
+
+Special names given to the operations that can be done on stack:
+	Push - element inserted into stack
+	Pop - element removed from stack
+
+Note: pop out an empty stack is called underflow and push into full stack is called overflow 
+
+It has a special variable called “top” which points to the element into stack, its location gives many details
+
+
+2. Stack ADT
+
+Various operations that can be performed on stack are as follows:
+	Push : insert data onto stack
+	Pop: remove data from stack
+	Top/Peek: returns last inserted element without removing it
+	Size : returns number of elements in stack
+	isEmpty: checks if stack is empty
+	isFull: check if stack is full
+
+
+3. Applications
+
+Some of the basic applications are:
+	Balancing of symbols/parenthesis   {},[],()
+	Conversion from infix to prefix/postfix   
+	Evaluation of expression  
+	Forward/Backward feature in browser
+	Redo/Undo in editors
+	Other applications:- tower of hanoi, tree traversal, etc
+
+
+4. Implementations
+    a. Simple Array
+	struct Stack
+	{
+	    int top;    //last element inserted in stack
+	    unsigned capacity;    ///size of the stack
+	    int* array;   //pointer to array, which will be stack for us
+	};
+
+
+	struct Stack* createStack(unsigned capacity)
+	{
+	    struct Stack* stack = (struct Stack*) malloc(sizeof(struct Stack));
+	    stack->capacity = capacity;
+	    stack->top = -1;
+	    stack->array = (int*) malloc(stack->capacity * sizeof(int));
+	    return stack;
+	}
+	int isFull(struct Stack* stack)
+	{   return stack->top == stack->capacity - 1; }
+
+	int isEmpty(struct Stack* stack)
+	{   return stack->top == -1;  }
+
+	void push(struct Stack* stack, int item)
+	{
+	    if (isFull(stack))
+		return;
+	    stack->array[++stack->top] = item;
+	    printf("%d pushed to stack\n", item);
+	}
+	int pop(struct Stack* stack)
+	{
+	    if (isEmpty(stack))
+		return INT_MIN;
+	    return stack->array[stack->top--];
+	}
+	int peek(struct Stack* stack)
+	{
+	    if (isEmpty(stack))
+		return INT_MIN;
+	    return stack->array[stack->top];
+	}
+	int main()
+	{
+	    struct Stack* stack = createStack(100);
+	    push(stack, 10);
+	    push(stack, 20);
+	    push(stack, 30);
+	    printf("%d popped from stack\n", pop(stack));
+	    printf("Top item is %d\n", peek(stack));
+	 
+	    return 0;
+	}
+
+Pros: Easy to implement and no extra memory
+Cons: It’s not dynamic since size doesn’t grow/shrink
+
+
+    b. Linked List
+	struct StackNode
+	{
+	    int data;
+	    struct StackNode* next;
+	};
+ 
+	struct StackNode *newNode(int data)
+	{
+	    struct StackNode* stackNode =
+		      (struct StackNode*) malloc(sizeof(struct StackNode));
+	    stackNode->data = data;
+	    stackNode->next = NULL;
+	    return stackNode;
+	}
+ 
+	int isEmpty(struct StackNode *root)
+	{
+	    return !root;
+	}
+	void push(struct StackNode** root, int data)
+	{
+	    struct StackNode* stackNode = newNode(data);
+	    stackNode->next = *root;
+	    *root = stackNode;
+	    printf("%d pushed to stack\n", data);
+	}
+ 
+	int pop(struct StackNode** root)
+	{
+	    if (isEmpty(*root))
+		return INT_MIN;
+	    struct StackNode* temp = *root;
+	    *root = (*root)->next;
+	    int popped = temp->data;
+	    free(temp);
+	 
+	    return popped;
+	}
+ 
+	int peek(struct StackNode* root)
+	{
+	    if (isEmpty(root))
+		return INT_MIN;
+	    return root->data;
+	}
+ 
+	int main()
+	{
+	    struct StackNode* root = NULL;
+	 
+	    push(&root, 10);
+	    push(&root, 20);
+	    push(&root, 30);
+	 
+	    printf("%d popped from stack\n", pop(&root));
+	 
+	    printf("Top element is %d\n", peek(root));
+	 
+	    return 0;
+	}
+	
+Pros: Linked list implementation of stack can grow/shrink according to need
+Cons: Requires extra memory due to implementation of pointer
+
