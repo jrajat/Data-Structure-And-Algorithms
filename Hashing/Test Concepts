@@ -1,0 +1,99 @@
+MCQ
+
+1. A hash table of length 10 uses open addressing with hash function h(k)=k mod 10, and linear probing. After inserting 6 values into an empty hash table, the table is as shown below.
+     	0 
+	1
+	2 - 42
+	3 - 23
+	4 - 34
+	5 - 52
+	6 - 46
+	7 - 33
+	8
+	9
+Which one of the following choices gives a possible order in which the key values could have been inserted in the table?
+(A) 46, 42, 34, 52, 23, 33
+(B) 34, 42, 23, 52, 33, 46
+(C) 46, 34, 42, 23, 52, 33
+(D) 42, 46, 33, 23, 34, 52
+
+Ans: C
+
+
+2. How many different insertion sequences of the key values using the same hash function and linear probing will result in the hash table shown above?
+(A) 10
+(B) 20
+(C) 30
+(D) 40
+
+Ans: C [3!*5]
+
+
+3. The keys 12, 18, 13, 2, 3, 23, 5 and 15 are inserted into an initially empty hash table of length 10 using open addressing with hash function h(k) = k mod 10 and linear probing. What is the resultant hash table?
+
+0		0		0		0
+1		1		1		1
+2 - 2		2 - 12		2 - 12		2 - 12,2
+3 - 23		3 - 13		3 - 13		3 - 13,3,23
+4		4		4 - 2		4
+5 - 15		5 - 5		5 - 3		5 - 5,15
+6		6		6 - 23		6
+7		7		7 - 5		7
+8 - 18		8 - 18		8 - 18		8 - 18
+9		9		9 - 15		9
+
+A		B		C		D
+
+Ans: C	
+
+
+4. Given the following input (4322, 1334, 1471, 9679, 1989, 6171, 6173, 4199) and the hash function x mod 10, which of the following statements are true?
+i. 9679, 1989, 4199 hash to the same value
+ii. 1471, 6171 has to the same value
+iii. All elements hash to the same value
+iv. Each element hashes to a different value
+(A) i only
+(B) ii only
+(C) i and ii only
+(D) iii or iv
+
+Ans: C
+
+
+5. Which one of the following hash functions on integers will distribute keys most uniformly over 10 buckets numbered 0 to 9 for i ranging from 0 to 2020?
+(A) h(i) =i2 mod 10
+(B) h(i) =i3 mod 10
+(C) h(i) = (11 ∗ i2) mod 10
+(D) h(i) = (12 ∗ i) mod 10
+
+Ans: B [since in cube last digits are from 0-9] 
+
+
+6. Given a hash table T with 25 slots that stores 2000 elements, the load factor α for T is __________
+(A) 80
+(B) 0.0125
+(C) 8000
+(D) 1.25
+Ans: A
+
+
+7. Which of the following statement(s) is TRUE?
+A hash function takes a message of arbitrary length and generates a fixed length code.
+A hash function takes a message of fixed length and generates a code of variable length.
+A hash function may give the same hash value for distinct messages.
+(A) I only
+(B) II and III only
+(C) I and III only
+(D) II only
+ 
+Ans: C
+
+
+8. Consider a hash function that distributes keys uniformly. The hash table size is 20. After hashing of how many keys will the probability that any new key hashed collides with an existing one exceed 0.5.
+(A) 5
+(B) 6
+(C) 7
+(D) 10
+
+Ans: D
+
