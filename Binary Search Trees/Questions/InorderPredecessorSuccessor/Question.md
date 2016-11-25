@@ -1,4 +1,4 @@
-Find inorder predecessor and successor of a given key in BST, if key not present print 2 nosbetween which key lie. 
+Find inorder predecessor(previous) and successor(next) of a given key in BST, if key not present print 2 nos between which key lie. 
 
 
 ```
