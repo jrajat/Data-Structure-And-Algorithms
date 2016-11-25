@@ -1,0 +1,39 @@
+MCQ
+
+1. Which of the following is a true about Binary Trees
+(A) Every binary tree is either complete or full.
+(B) Every complete binary tree is also a full binary tree.
+(C) Every full binary tree is also a complete binary tree.
+(D) No binary tree is both complete and full.
+(E) None of the above
+
+Ans: E
+
+
+2. Level of a node is distance from root to that node. For example, level of root is 1 and levels of left and right children of root is 2. The maximum number of nodes on level i of a binary tree is
+In the following answers, the operator ‘^’ indicates power.
+(A) 2^(i-1)
+(B) 2^i
+(C) 2^(i+1)
+(D) 2^[(i+1)/2]
+
+Ans: A
+
+
+3. The maximum number of binary trees that can be formed with three unlabeled nodes is:
+(A) 1
+(B) 5
+(C) 4
+(D) 3
+
+Ans: B
+
+
+4. The height of a binary tree is the maximum number of edges in any root to leaf path. The maximum number of nodes in a binary tree of height h is:
+(A) 2^h -1
+(B) 2^(h-1) – 1
+(C) 2^(h+1) -1
+(D) 2*(h+1)
+
+Ans: C
+

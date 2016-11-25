@@ -1,0 +1,421 @@
+Binary Tree
+
+
+1. What are trees?
+
+Unlike Arrays, Linked Lists, Stack and queues, which are linear data structures, trees are hierarchical data structures.
+
+
+2. Understanding tree
+ 
+Who is root, children, parent, leaves….
+
+
+3. Why trees?
+
+One reason can be store the data which is naturally in hierarchical format
+Moderate access/search (better than LL but not as good as arrays)
+Moderate Insert/Delete (better than arrays but not as good as LL)
+Like LL, no upper limit on size of tree (number of nodes in trees), y?
+
+
+4. Applications of tree
+
+   - Manipulate hierarchical data
+   - Information easy to search
+   - Manipulate sorted lists of data (BST)
+
+
+5. Binary tree
+
+A tree whose elements can have at most 2 children is called Binary tree. Since there are only 2 children we can name as (left-right)
+
+Ternary tree?
+Binary (2) Ternary(3)
+
+
+6. Binary tree representation in C
+
+In C, we’ll create structure with data, pointer to left child, and pointer to right child
+	struct node
+	{
+	    int data;
+	    struct node *left;
+	    struct node *right;
+	};
+	struct node* newNode(int data)
+	{
+	  struct node* node = (struct node*)malloc(sizeof(struct node));
+	  node->data = data;
+	  node->left = NULL;
+	  node->right = NULL;
+	  return(node);
+	}
+	int main()
+	{
+	  struct node *root = newNode(1); 
+	  root->left    	= newNode(2);
+	  root->right   	= newNode(3);
+	  root->left->left  = newNode(4);
+	  getchar();
+	  return 0;
+	}
+
+
+Binary Trees Basic Properties
+
+1. Maximum number of nodes at level ‘l’ of binary tree is 2^(l-1)
+2. Maximum number of nodes in binary tree of height ‘h’ is (2^h)-1
+3. In BT with N nodes, minimum possible height/levels is [ Log(N+1) ] ….from 2
+4. BT with L leaves has at least [ Log L]+1 Levels …. from 1
+
+
+Types of Binary trees
+
+1. Strict : BT is strict if every node has 0 or 2 childrens
+2. Full : BT is full if every node has 2 children and all leaf nodes are at same level
+3. Complete : BT is complete if all levels are completely filled except the last and all elements are as left as possible
+4. Balanced : BT is balance if height of tree is (log2n). 
+5. Degenerate (Pathological/Skew) : Tree with every internal node with 1 children (same as LL)
+
+
+Enumeration of Trees
+
+1. What are labelled and unlabelled trees?
+
+A Binary Tree is labeled if every node is assigned a label and a Binary Tree is unlabeled if nodes are not assigned any label.
+Below two are considered same unlabeled trees
+     o                   o
+   /   \               /   \ 
+  o     o             o     o 
+
+Below two are considered different labeled trees
+    A                C
+  /   \             /  \ 
+ B     C           A    B
+
+
+2. How many different unlabelled BT can be there with n nodes? Derive Catalan Numbers
+
+T(n) = T(i)T(n-i-1) = Cn  where i=0 to n-1
+
+Get nth catalan number as 
+  T(n) = (2n)! / (n+1)!n!
+
+
+3. How many different labelled BT can be there with n nodes? Derive
+Number of Labeled Trees = (Number of unlabeled trees) * n!
+
+
+
+Tree Traversal
+1. Depth First Traversal
+
+   Inorder
+       Algo		
+	  inoder(tree):
+	  inorder(left-child)
+	  print tree->data
+	  inorder(right-child)		
+
+       Usage 
+	  In BST, it gives nodes in non-decreasing order(sorted)
+
+
+   Preorder
+      Algo		
+	  preorder(tree)
+	  print tree->data
+	  preorder(left-child)
+	  preorder(right-child)
+
+      Usage
+	  Useful to create copy of tree and even prefix expression
+
+
+   Postorder
+     Algo		
+	  postorder(tree)
+	  postorder(left-child)
+	  postorder(right-child)
+	  print tree->data
+
+     Usage
+	  Useful to delete tree and also postfix expression
+
+Code: 	
+	#include <stdio.h>
+	#include <stdlib.h>
+	 
+	struct node
+	{
+	     int data;
+	     struct node* left;
+	     struct node* right;
+	};
+	 
+	struct node* newNode(int data)
+	{
+	     struct node* node = (struct node*)malloc(sizeof(struct node));
+	     node->data = data;
+	     node->left = NULL;
+	     node->right = NULL;
+	 
+	     return(node);
+	}
+	 
+	void printPostorder(struct node* node)
+	{
+	     if (node == NULL)
+		return;
+	     printPostorder(node->left);
+	     printPostorder(node->right);
+	     printf("%d ", node->data);
+	}
+	 
+	void printInorder(struct node* node)
+	{
+	     if (node == NULL)
+		  return;
+	     printInorder(node->left);
+	     printf("%d ", node->data); 
+	     printInorder(node->right);
+	}
+	 
+	void printPreorder(struct node* node)
+	{
+	     if (node == NULL)
+		  return;
+	     printf("%d ", node->data); 
+	     printPreorder(node->left); 
+	     printPreorder(node->right);
+	}	
+	 
+	int main()
+	{
+	     struct node *root  = newNode(1);
+	     root->left         	= newNode(2);
+	     root->right       	= newNode(3);
+	     root->left->left 	= newNode(4);
+	     root->left->right   = newNode(5);
+	 
+	     printf("\nPreorder traversal of binary tree is \n");
+	     printPreorder(root);
+	 
+	     printf("\nInorder traversal of binary tree is \n");
+	     printInorder(root); 
+ 
+	     printf("\nPostorder traversal of binary tree is \n");
+	     printPostorder(root);
+	 
+	     getchar();
+	     return 0;
+	}
+
+
+2. Breadth First Traversal (level order traversal)
+
+What? We know
+
+Why?
+  - Anything that can’t be solved by other traversals? NO
+  - Difference in terms of Time complexity? NO O(n)
+  - Difference in space complexity? YES
+    a. In level order traversal, extra space required is O(w) w=> max width of BT
+    b. In Depth First Traversal, extra space required is O(h) h=> max height of BT
+
+Note: Extra space required is more in BFT when tree is more balanced and is more in DFT when tree is less balanced
+
+
+How to pick?
+  - Extra space 
+  - DFT are typically recursive, and requires function call overhead
+  - BFS starts visiting nodes from roots, and DFS starts visiting nodes from leaves. Depending on 
+  
+The node at which level to be searched, you decide which traversal to follow
+To print nodes at kth level, k<<<<max. no of levels, we should go with?? BFT
+
+
+Method1  (Recursive)
+
+	printLevelorder(tree):
+	   for d = 1 to height(tree)
+	       printGivenLevel(tree, d);
+
+	printGivenLevel(tree, level):
+	if tree is NULL then return;
+	if level is 1, then
+	    print(tree->data);
+	else if level greater than 1, then
+	    printGivenLevel(tree->left, level-1); 
+	    printGivenLevel(tree->right, level-1);
+
+Code:
+
+	#include <stdio.h>
+	#include <stdlib.h>
+	 
+	struct node
+	{
+	    int data;
+	    struct node* left, *right;
+	};
+	 
+	void printGivenLevel(struct node* root, int level);
+	int height(struct node* node);
+	struct node* newNode(int data);
+	 
+	void printLevelOrder(struct node* root)
+	{
+	    int h = height(root);
+	    int i;
+	    for (i=1; i<=h; i++)
+		printGivenLevel(root, i);
+	}
+	 
+	void printGivenLevel(struct node* root, int level)
+	{
+	    if (root == NULL)
+		return;
+	    if (level == 1)
+		printf("%d ", root->data);
+	    else if (level > 1)
+	    {
+		printGivenLevel(root->left, level-1);
+		printGivenLevel(root->right, level-1);
+	    }
+	}
+	 
+	int height(struct node* node)
+	{
+	    if (node==NULL)
+		return 0;
+	    else
+	    {
+		int lheight = height(node->left);
+		int rheight = height(node->right);
+	 
+		if (lheight > rheight)
+		    return(lheight+1);
+		else return(rheight+1);
+	    }
+	}
+	 
+	struct node* newNode(int data)
+	{
+	    struct node* node = (struct node*)malloc(sizeof(struct node));
+	    node->data = data;
+	    node->left = NULL;
+	    node->right = NULL;
+	 
+	    return(node);
+	}
+	 
+	int main()
+	{
+	    struct node *root = newNode(1);
+	    root->left    	= newNode(2);
+	    root->right   	= newNode(3);
+	    root->left->left  = newNode(4);
+	    root->left->right = newNode(5);
+	 
+	    printf("Level Order traversal of binary tree is \n");
+	    printLevelOrder(root);
+	 
+	    return 0;
+	}
+
+
+
+Method 2 (Using Queue)
+
+	printLevelorder(tree)
+	1) Create an empty queue q
+	2) temp_node = root /*start from root*/
+	3) Loop while temp_node is not NULL
+	    a) print temp_node->data.
+	    b) Enqueue temp_node’s children (first left then right children) to q
+	    c) Dequeue a node from q and assign it’s value to temp_node
+
+Code: 
+
+	#include <stdio.h>
+	#include <stdlib.h>
+	#define MAX_Q_SIZE 500
+	 
+	struct node
+	{
+	    int data;
+	    struct node* left;
+	    struct node* right;
+	};
+	 
+	struct node** createQueue(int *, int *);
+	void enQueue(struct node **, int *, struct node *);
+	struct node *deQueue(struct node **, int *);
+
+
+	void printLevelOrder(struct node* root)
+	{
+	    int rear, front;
+	    struct node **queue = createQueue(&front, &rear);
+	    struct node *temp_node = root;
+	 
+	    while (temp_node)
+	    {
+		printf("%d ", temp_node->data);
+	 
+		if (temp_node->left)
+		    enQueue(queue, &rear, temp_node->left);
+	 
+		if (temp_node->right)
+		    enQueue(queue, &rear, temp_node->right);
+	 
+		temp_node = deQueue(queue, &front);
+	    }
+	}
+	 
+	struct node** createQueue(int *front, int *rear)
+	{
+	    struct node **queue =(struct node **)malloc(sizeof(struct node*)*MAX_Q_SIZE);
+
+
+	    *front = *rear = 0;
+	    return queue;
+	}
+	 
+	void enQueue(struct node **queue, int *rear, struct node *new_node)
+	{
+	    queue[*rear] = new_node;
+	    (*rear)++;
+	}
+	 
+	struct node *deQueue(struct node **queue, int *front)
+	{
+	    (*front)++;
+	    return queue[*front - 1];
+	}
+	 
+	struct node* newNode(int data)
+	{
+	    struct node* node = (struct node*)malloc(sizeof(struct node));
+	    node->data = data;
+	    node->left = NULL;
+	    node->right = NULL;
+	 
+	    return(node);
+	}
+	 
+	int main()
+	{
+	    struct node *root = newNode(1);
+	    root->left    	= newNode(2);
+	    root->right   	= newNode(3);
+	    root->left->left  = newNode(4);
+	    root->left->right = newNode(5);
+	 
+	    printf("Level Order traversal of binary tree is \n");
+	    printLevelOrder(root);
+	 
+	    return 0;
+	}
