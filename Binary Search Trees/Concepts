@@ -1,0 +1,75 @@
+Binary Search Tree
+
+
+1. What is binary search tree?
+
+Binary Search Tree, is a node-based binary tree data structure which has the following properties:
+ - left subtree contains keys less than the node’s key.
+ - right subtree contains keys greater than the node’s key.
+ - left and right subtree each must also be a binary search tree.
+ - No duplicate nodes (no duplicate keys) y? 
+
+
+2. Searching a key
+
+First check with root, if not same check if greater check in right-subtree else check in left-subtree
+struct node* search(struct node* root, int key)
+{
+    if (root == NULL || root->data == key)
+       return root;
+    if (root->data < key)
+       return search(root->right, key);
+    return search(root->left, key);
+}
+
+
+3. Inserting a key
+
+New key is always inserted at leaf, start searching key till we found leaf node and then add it to the leaf node.
+struct node* insert(struct node* node, int key)
+{
+    if (node == NULL) return newNode(key);
+    if (key < node->data)
+        node->left  = insert(node->left, key);
+    else if (key > node->data)
+        node->right = insert(node->right, key);  
+    return node;
+}
+
+
+4. Deleting a key
+
+Three possible cases, node to be deleted has no child, one child or two child
+  0 child - Just delete from tree 
+  1 child - Copy data of child to node and delete child
+  2 child - Find inorder successor or predecessor, and copy that data to this node and delete that node. Which can be easy always?
+
+struct node* deleteNode(struct node* root, int key)
+{
+    if (root == NULL) return root;
+ 
+    if (key < root->data)
+        root->left = deleteNode(root->left, key);
+    else if (key > root->data)
+        root->right = deleteNode(root->right, key);
+    else
+    {
+        if (root->left == NULL) //Only right child
+        {
+            struct node *temp = root->right;
+            free(root);
+            return temp;
+        }
+        else if (root->right == NULL) //only left child
+        {
+            struct node *temp = root->left;
+            free(root);
+            return temp;
+        }
+        struct node* temp = minValueNode(root->right);//return leftmost child in right subtree
+        root->data = temp->key;
+        root->right = deleteNode(root->right, temp->key);
+    }
+    return root;
+}
+
