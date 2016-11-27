@@ -1,0 +1,284 @@
+Graphs
+
+
+1. Graph and its representations
+
+Graph is a data structure that consists of following two components:
+1. A finite set of vertices also called as nodes.
+2. A finite set of ordered pair of the form (u, v) called as edge. The pair is ordered because (u, v) is not same as (v, u) in case of directed graph(di-graph). The pair of form (u, v) indicates that there is an edge from vertex u to vertex v. The edges may contain weight/value/cost.
+
+     0------1
+     |    / | \
+     |	/   |  2
+     |/     | /
+     4------3
+
+
+ 
+     2-------4          6
+     |       |         |  \
+     |       |         |    \
+     3-------5         7-----8
+
+
+Following two are the most commonly used representations of graph. 
+Adjacency Matrix 
+Adjacency List
+
+
+Adjacency Matrix:
+
+Adjacency Matrix is a 2D array of size V x V where V is the number of vertices in a graph. Let the 2D array be adj[][], a slot adj[i][j] = 1 indicates that there is an edge from vertex i to vertex j. Adjacency matrix for undirected graph is always symmetric. Adjacency Matrix is also used to represent weighted graphs. If adj[i][j] = w, then there is an edge from vertex i to vertex j with weight w.
+
+   0  1  2  3  4
+ 0 0  1  0  0  1 
+ 1 1  0  1  1  1
+ 2 0  1  0  1  0
+ 3 0  1  1  0  1
+ 4 1  1  0  1  0
+
+Pros: Easy to implement and follow. Deleting an edge takes O(1) time. Queries like whether there is an edge from vertex ‘u’ to vertex ‘v’ are efficient and can be done O(1).
+
+Cons: Consumes more space O(V^2). Even if the graph is sparse(contains less number of edges), it consumes the same space. Adding a vertex is O(V^2) time.
+
+
+
+Adjacency List:
+
+An array of linked lists is used. Size of the array is equal to number of vertices. Let the array be array[]. An entry array[i] represents the linked list of vertices adjacent to the ith vertex. This representation can also be used to represent a weighted graph. The weights of edges can be stored in nodes of linked lists. Following is adjacency list representation of the above graph.
+
+0 - [1]->[4]
+1 - [0]->[2]->[3]->[4]
+2 - [1]->[3]
+3 - [2]->[1]->[4]
+4 - [3]->[1]->[0]
+
+
+Code: 
+
+	struct AdjListNode
+	{   int dest;
+	    struct AdjListNode* next;
+	};
+	 
+	struct AdjList
+	{   struct AdjListNode *head;  };
+	 
+	struct Graph
+	{   int V;
+	    struct AdjList* arrayOfLL; };
+	 
+	struct AdjListNode* newAdjListNode(int dest)
+	{
+	    struct AdjListNode* newNode =
+		    (struct AdjListNode*) malloc(sizeof(struct AdjListNode));
+	    newNode->dest = dest;
+	    newNode->next = NULL;
+	    return newNode;
+	}
+
+
+	struct Graph* createGraph(int V)
+	{
+	    struct Graph* graph = (struct Graph*) malloc(sizeof(struct Graph));
+	    graph->V = V; //number of vertices in graph
+	    graph->array = (struct AdjList*) malloc(V * sizeof(struct AdjList));
+	    int i;
+	    for (i = 0; i < V; ++i)
+		graph->array[i].head = NULL;  
+	    return graph;
+	}
+
+	void addEdge(struct Graph* graph, int src, int dest)
+	{
+	    
+	    struct AdjListNode* newNode = newAdjListNode(dest);
+	    newNode->next = graph->array[src].head;
+	    graph->array[src].head = newNode;
+	 
+	    newNode = newAdjListNode(src);
+	    newNode->next = graph->array[dest].head;
+	    graph->array[dest].head = newNode;
+	}
+	 
+	void printGraph(struct Graph* graph)
+	{
+	    int v;
+	    for (v = 0; v < graph->V; ++v)
+	    {
+		struct AdjListNode* pCrawl = graph->array[v].head;
+		printf("\n Adjacency list of vertex %d\n head ", v);
+		while (pCrawl)
+		{
+		    printf("-> %d", pCrawl->dest);
+		    pCrawl = pCrawl->next;
+		}
+		printf("\n");
+	    }
+	}
+	 
+	int main()
+	{
+	    int V = 5;
+	    struct Graph* graph = createGraph(V);
+	    addEdge(graph, 0, 1);
+	    addEdge(graph, 0, 4);
+	    addEdge(graph, 1, 2);
+	    addEdge(graph, 1, 3);
+	    addEdge(graph, 1, 4);
+	    addEdge(graph, 2, 3);
+	    addEdge(graph, 3, 4);
+	    printGraph(graph);
+	    return 0;
+	}
+
+
+2. Breadth first traversal for graph
+
+
+Breadth First Traversal (or Search) for a graph is similar to Breadth First Traversal of a tree. The only catch here is, unlike trees, graphs may contain cycles, so we may come to the same node again. To avoid processing a node more than once, we use a boolean visited array. For simplicity, it is assumed that all vertices are reachable from the starting vertex.
+
+ Verties  Connected Vertices
+     0 -> 1,2
+     1 -> 2 
+     2 -> 0,3
+     3 -> 3
+
+starting point=2
+
+Code: 
+
+	#include <list>
+	using namespace std;
+	class Graph
+	{   int V;	
+	    list<int> *adj;
+	public:
+	    Graph(int V); 
+	    void addEdge(int v, int w); 
+	    void BFS(int s);  
+	};
+	Graph::Graph(int V)
+	{   this->V = V;
+	    adj = new list<int>[V];
+	}
+	void Graph::addEdge(int v, int w)
+	{   adj[v].push_back(w); }
+	void Graph::BFS(int s)
+	{   bool *visited = new bool[V];
+	    for(int i = 0; i < V; i++)
+		visited[i] = false;
+	 
+	    list<int> queue;
+	    visited[s] = true;
+	    queue.push_back(s);
+	 
+	    list<int>::iterator i;
+	    while(!queue.empty())
+	    {   s = queue.front(); //pop
+		cout << s << " ";  //print
+		queue.pop_front();
+		for(i = adj[s].begin(); i != adj[s].end(); ++i)//all the childrens
+		{   if(!visited[*i])
+		    {   visited[*i] = true,
+			queue.push_back(*i);}
+		}
+	    }
+	}
+	int main()
+	{
+	    Graph g(4);
+	    g.addEdge(0, 1);    g.addEdge(0, 2);    g.addEdge(1, 2);    
+	    g.addEdge(2, 0);    g.addEdge(2, 3);    g.addEdge(3, 3);
+	    cout << "Following is Breadth First Traversal (starting from vertex 2) \n";
+	    g.BFS(2);
+	 
+	    return 0;
+	}
+
+
+TC: O(V+E)
+
+
+3. Depth first traversal for graph
+
+Depth First Traversal (or Search) for a graph is similar to Depth First Traversal of a tree. The only catch here is, unlike trees, graphs may contain cycles, so we may come to the same node again. To avoid processing a node more than once, we use a boolean visited array. 
+  
+     0 -> 1,2
+     1 -> 2 
+     2 -> 0,3
+     3 -> 3
+
+starting point=2
+
+Code:
+
+	#include <list>
+	using namespace std;
+	class Graph
+	{   int V;	
+	    list<int> *adj;
+	    void DFSUtil(int v, bool visited[]);  
+	public:
+	    Graph(int V);   
+	    void addEdge(int v, int w);   
+	    void DFS(int v);	
+	};
+	Graph::Graph(int V)
+	{   this->V = V;
+	    adj = new list<int>[V];
+	}
+	void Graph::addEdge(int v, int w)
+	{   adj[v].push_back(w); }
+	 
+	void Graph::DFSUtil(int v, bool visited[])
+	{   visited[v] = true; 
+	    cout << v << " ";
+	 
+	    list<int>::iterator i;
+	    for (i = adj[v].begin(); i != adj[v].end(); ++i)//all childrens
+		if (!visited[*i]) //whether vertex is already visited or not
+		    DFSUtil(*i, visited); //Call recursively
+	}
+	void Graph::DFS(int v)
+	{   bool *visited = new bool[V];
+	    for (int i = 0; i < V; i++)
+		visited[i] = false;
+	 
+	    DFSUtil(v, visited);
+	}
+	 
+	int main()
+	{   Graph g(4);
+	    g.addEdge(0, 1);    g.addEdge(0, 2);    g.addEdge(1, 2);
+	    g.addEdge(2, 0);    g.addEdge(2, 3);    g.addEdge(3, 3);
+	    cout << "Following is Depth First Traversal (starting from vertex 2) \n";
+    g.DFS(2);
+	 
+	    return 0;
+	}
+
+
+TC: O(V+E)
+
+
+4. Applications of Depth first search
+
+- Minimum spanning tree - [all pair shortest path]
+- Detecting cycle in graph
+- Path Finding between 2 vertices
+- Topological sorting
+- Test if graph is bipartite
+- Strongly connected components of graph
+
+
+5. Application of Breadth first search
+- Shortest path and minimum spanning tree
+- Peer to peer networks
+- Crawlers in search engine [build index using BFS]
+- Social networking websites
+- GPS Navigation systems [neighbouring locations]
+- Broadcasting in network [broadcast packets to all neighbouring nodes]
+- Etc….
+
+
