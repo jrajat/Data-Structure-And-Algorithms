@@ -21,7 +21,7 @@ Max Sum
 
 *Output*: 
 
-15
+13
 
 
 __*Note*__: Logic should pass all possible testcases
